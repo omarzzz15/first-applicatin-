@@ -32,8 +32,11 @@ jobs:
           rm -rf cse_chat_app/lib/main.dart
           cp cse_chat_complete.dart cse_chat_app/lib/main.dart
           cd cse_chat_app
-          # هنا ضفنا كل المكاتب اللي كودك مستخدمها بالظبط لإنهاء المشكلة ✅
           flutter pub add firebase_core firebase_auth cloud_firestore google_fonts intl
+          
+          # خطوة سحرية: تعديل ملف build.gradle لرفع الـ minSdkVersion لـ 23 عشان يوافق الفايربيز
+          sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 23/g' android/app/build.gradle
+          sed -i 's/minSdkVersion 19/minSdkVersion 23/g' android/app/build.gradle
 
       - name: Install dependencies
         run: |
