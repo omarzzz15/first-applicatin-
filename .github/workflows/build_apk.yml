@@ -32,7 +32,8 @@ jobs:
           rm -rf cse_chat_app/lib/main.dart
           cp cse_chat_complete.dart cse_chat_app/lib/main.dart
           cd cse_chat_app
-          flutter pub add firebase_core firebase_auth cloud_firestore
+          # هنا ضفنا كل المكاتب اللي كودك مستخدمها بالظبط لإنهاء المشكلة ✅
+          flutter pub add firebase_core firebase_auth cloud_firestore google_fonts intl
 
       - name: Install dependencies
         run: |
