@@ -29,14 +29,16 @@ jobs:
       - name: Create Flutter Project Structure
         run: |
           flutter create cse_chat_app --project-name=cse_chat
-          rm -rf cse_chat_app/lib/main.dart
-          cp cse_chat_complete.dart cse_chat_app/lib/main.dart
           cd cse_chat_app
           flutter pub add firebase_core firebase_auth cloud_firestore google_fonts intl
-          
-          # خطوة سحرية: تعديل ملف build.gradle لرفع الـ minSdkVersion لـ 23 عشان يوافق الفايربيز
           sed -i 's/minSdkVersion flutter.minSdkVersion/minSdkVersion 23/g' android/app/build.gradle
           sed -i 's/minSdkVersion 19/minSdkVersion 23/g' android/app/build.gradle
+          
+          rm -f lib/main.dart
+          cp ../cse_chat_complete.dart lib/main.dart
+          
+          # تعديل ذكي لتعطيل الفايربيز مؤقتاً عشان يتخطى الشاشة البيضاء ويفتح فوراً
+          sed -i 's/await Firebase.initializeApp(/ \/\/ await Firebase.initializeApp(/g' lib/main.dart
 
       - name: Install dependencies
         run: |
@@ -46,7 +48,7 @@ jobs:
       - name: Build APK
         run: |
           cd cse_chat_app
-          flutter build apk --release
+          flutter build apk --release --no-tree-shake-icons
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
